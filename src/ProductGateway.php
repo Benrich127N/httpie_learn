@@ -25,6 +25,26 @@ class ProductGateway
 
     return $data;
   }
+    public function create (array $data):string
+      {
+        $sql = "INSERT INTO product (name, size, is_available)
+        VALUES (:name, :size, :is_available)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":name", $data["name"], PDO::PARAM_STR);
+        $stmt->bindValue(":size", $data["size"] ?? 0, PDO::PARAM_INT);
+        $data["is_available"] = $data["is_available"] ?? false;
+        $stmt->bindValue(":is_available", (bool) $data["is_available"] ?? false, PDO::PARAM_BOOL);
+        
+        $stmt->execute();
+
+
+        return $this->conn->lastInsertId();
+        
+
+
+      }
 
 
 

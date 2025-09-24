@@ -29,8 +29,16 @@ class ProductController
             case "POST":
               $data = (array) json_decode(file_get_contents("php://input"), true);
 
-              var_dump($data);
-        }
+             $id = $this->gateway->create($data);
+
+             http_response_code(201);
+
+             echo json_encode(
+               ["message" => "Product created",
+             "id" => $id
+            ]);
+            break;
+            }
     }
 }
 
